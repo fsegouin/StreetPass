@@ -13,6 +13,9 @@ fi
 #Assign a default value if the network adapter name is missing
 adapter=${2-en0}
 
+#Store real mac address
+realmac=$(ifconfig en0 ether | grep "ether" | awk '{print $2}')
+
 # This doesnt work since OSX 10.11 because of System Integrity Protection - there is no way to enable and disable Internet Sharing automatically
 # You need to enable it before launching this script
 
@@ -46,6 +49,8 @@ if [ $# -lt 1 ]
 #			sudo launchctl load -w $icsPlist
 #			sleep 300
 			done <$1
+    echo "Setting mac address back to its real value"	
+    ifconfig $adapter ether $realvalue
 fi
 
 
